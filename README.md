@@ -11,7 +11,7 @@ init を叩くと必要な外部パッケージがインストールされます
 例）NFAExample の受理する言語を確認する
 ~~~
 $ ghci
-ghci > :l Src.Src.NFAExample
+ghci > :l Src.NFA.NFAExample
 ghci > acceptedWords
 fromList ["aaaab","aaab","aab","aabab","ab","abaab","abab","abbab","baaab","baab","bab","babab","bbaab","bbab","bbbab"]
 ~~~
