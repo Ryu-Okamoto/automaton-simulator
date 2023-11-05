@@ -14,7 +14,8 @@ run = hspec $ do
     test03
 
 test01 :: Spec
-test01 = describe "test01, accepting words ending with \"bb\"" $ do it "standard" $ acceptedWords `shouldBe` expected
+test01 = describe "test01, accepting words ending with \"bb\"" $ do
+        it "check by enumerating words whose length is less than 3" $ acceptedWords `shouldBe` expected
     where
         stateSet :: Set State = fromList [0, 1, 2]
         alphabet :: Set Symbol = fromList ['a', 'b']
@@ -32,7 +33,8 @@ test01 = describe "test01, accepting words ending with \"bb\"" $ do it "standard
         expected :: Set [Symbol] = fromList ["bb", "abb", "bbb"]
 
 test02 :: Spec
-test02 = describe "test02, accepting words including \"ab\" as its partial string" $ do it "standard" $ acceptedWords `shouldBe` expected
+test02 = describe "test02, accepting words including \"ab\" as its partial string" $ do 
+        it "check by enumerating words whose length is less than 3"  $ acceptedWords `shouldBe` expected
     where
         stateSet :: Set State = fromList [0, 1, 2]
         alphabet :: Set Symbol = fromList ['a', 'b']
@@ -50,7 +52,8 @@ test02 = describe "test02, accepting words including \"ab\" as its partial strin
         expected :: Set [Symbol] = fromList ["ab", "aab", "aba", "bab", "abb"]
 
 test03 :: Spec
-test03 = describe "test03, accepting words with even numbers of \"a\" and \"b\"" $ do it "standard" $ acceptedWords `shouldBe` expected
+test03 = describe "test03, accepting words with even numbers of \"a\" and \"b\"" $ do 
+        it "check by enumerating words whose length is less than 4" $ acceptedWords `shouldBe` expected
     where
         stateSet :: Set State = fromList [0, 1, 2, 3]
         alphabet :: Set Symbol = fromList ['a', 'b']

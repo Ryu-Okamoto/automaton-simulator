@@ -12,7 +12,8 @@ run = hspec $ do
     test01
 
 test01 :: Spec
-test01 = describe "test01, accepting words ending with \"ab\"" $ do it "standard" $ acceptedWords `shouldBe` expected
+test01 = describe "test01, accepting words ending with \"ab\"" $ do 
+        it "check by enumerating words whose length is less than 4" $ acceptedWords `shouldBe` expected
     where
         stateSet :: Set State = fromList [0, 1, 2]
         alphabet :: Set Symbol = fromList ['a', 'b']
