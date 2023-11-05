@@ -13,19 +13,15 @@ data DFA = DFA {
         getAcceptingStateSet  :: Set State
     }
 
-extendTransitionFunction :: ((State, Symbol) -> State) -> ((State, [Symbol]) -> State)
-extendTransitionFunction f = extendedTransitionFunction
-    where
-        extendedTransitionFunction :: (State, [Symbol]) -> State
-        extendedTransitionFunction (q,  []) = q
-        extendedTransitionFunction (q, a:x) = extendedTransitionFunction (f (q, a), x)
-
 judge :: DFA -> [Symbol] -> Bool
-judge dfa word = transitionFuntion (initialState, word) `member` acceptionStateSet
+judge dfa word = extendedTransitionFunction (initialState, word) `member` acceptionStateSet
     where
         initialState      = getInitialState dfa
-        transitionFuntion = extendTransitionFunction $ getTransitionFunction dfa
         acceptionStateSet = getAcceptingStateSet dfa
+        transitionFuntion = getTransitionFunction dfa
+        extendedTransitionFunction :: (State, [Symbol]) -> State
+        extendedTransitionFunction (q,  []) = q
+        extendedTransitionFunction (q, a:x) = extendedTransitionFunction (transitionFuntion (q, a), x)
 
 enumerateAcceptedWords :: Int -> DFA -> Set [Symbol]
 enumerateAcceptedWords maxWordLength dfa = S.filter (judge dfa) candidateWords

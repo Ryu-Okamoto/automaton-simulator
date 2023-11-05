@@ -13,21 +13,17 @@ data NFA = NFA {
         getAcceptingStateSet  :: Set State
     }
 
-extendTransitionFunction :: ((State, Symbol) -> Set State) -> ((State, [Symbol]) -> Set State)
-extendTransitionFunction f = extendedTransitionFunction
+judge :: NFA -> [Symbol] -> Bool
+judge nfa word = extendedTransitionFunction (initialState, word) `intersection` acceptingStateSet /= empty
     where
+        initialState      = getInitialState nfa
+        acceptingStateSet = getAcceptingStateSet nfa
+        transitionFuntion = getTransitionFunction nfa
         extendedTransitionFunction :: (State, [Symbol]) -> Set State
         extendedTransitionFunction (q,  []) = return q
         extendedTransitionFunction (q, a:x) = do
-                                                p <- f (q, a)
+                                                p <- transitionFuntion (q, a)
                                                 extendedTransitionFunction (p, x)
-
-judge :: NFA -> [Symbol] -> Bool
-judge nfa word = transitionFuntion (initialState, word) `intersection` acceptionStateSet /= empty
-    where
-        initialState      = getInitialState nfa
-        transitionFuntion = extendTransitionFunction $ getTransitionFunction nfa
-        acceptionStateSet = getAcceptingStateSet nfa
 
 enumerateAcceptedWords :: Int -> NFA -> Set [Symbol]
 enumerateAcceptedWords maxWordLength nfa = S.filter (judge nfa) candidateWords
